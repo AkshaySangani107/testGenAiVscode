@@ -1,0 +1,133 @@
+{
+  "name": "testgenai-vscode",
+  "displayName": "TestGenAI — AI Unit Test Generator",
+  "description": "Autonomous AI-powered NestJS & TypeScript unit test generation, evaluation, and coverage expansion directly in VS Code.",
+  "version": "1.0.0",
+  "publisher": "testgenai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AkshaySangani107/testGenAi"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Testing",
+    "Programming Languages",
+    "Other"
+  ],
+  "keywords": [
+    "nestjs",
+    "jest",
+    "unit tests",
+    "ai",
+    "test generation"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "*",
+    "onCommand:testgenai.generateCurrentFile",
+    "onCommand:testgenai.expandCoverage",
+    "onCommand:testgenai.inspectGaps"
+  ],
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "testgenai.generateCurrentFile",
+        "title": "TestGenAI: Generate Unit Tests",
+        "category": "TestGenAI",
+        "icon": "$(beaker)"
+      },
+      {
+        "command": "testgenai.expandCoverage",
+        "title": "TestGenAI: Expand Test Coverage (Close Gaps)",
+        "category": "TestGenAI",
+        "icon": "$(graph-line)"
+      },
+      {
+        "command": "testgenai.inspectGaps",
+        "title": "TestGenAI: Inspect Coverage Gaps",
+        "category": "TestGenAI",
+        "icon": "$(search)"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "testgenai.generateCurrentFile",
+          "when": "resourceExtname == .ts && !resourceFilename =~ /\\.spec\\.ts$/",
+          "group": "7_modification@1"
+        },
+        {
+          "command": "testgenai.expandCoverage",
+          "when": "resourceExtname == .ts && !resourceFilename =~ /\\.spec\\.ts$/",
+          "group": "7_modification@2"
+        },
+        {
+          "command": "testgenai.inspectGaps",
+          "when": "resourceExtname == .ts && !resourceFilename =~ /\\.spec\\.ts$/",
+          "group": "7_modification@3"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "testgenai.generateCurrentFile",
+          "when": "resourceExtname == .ts && !resourceFilename =~ /\\.spec\\.ts$/",
+          "group": "7_modification@1"
+        },
+        {
+          "command": "testgenai.expandCoverage",
+          "when": "resourceExtname == .ts && !resourceFilename =~ /\\.spec\\.ts$/",
+          "group": "7_modification@2"
+        },
+        {
+          "command": "testgenai.inspectGaps",
+          "when": "resourceExtname == .ts && !resourceFilename =~ /\\.spec\\.ts$/",
+          "group": "7_modification@3"
+        }
+      ],
+      "editor/title/run": [
+        {
+          "command": "testgenai.generateCurrentFile",
+          "when": "resourceExtname == .ts && !resourceFilename =~ /\\.spec\\.ts$/",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "TestGenAI",
+      "properties": {
+        "testgenai.backendUrl": {
+          "type": "string",
+          "default": "http://localhost:3000",
+          "description": "TestGenAI NestJS backend API URL"
+        },
+        "testgenai.minCoverage": {
+          "type": "number",
+          "default": 75,
+          "description": "Target minimum code coverage percentage"
+        },
+        "testgenai.showDiffBeforeSaving": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show interactive side-by-side diff editor before writing the generated spec file"
+        },
+        "testgenai.autoSaveAccepted": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically overwrite the .spec.ts file when generation passes without asking"
+        }
+      }
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/vscode": "^1.80.0",
+    "typescript": "^5.4.5"
+  }
+}
